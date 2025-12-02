@@ -1,318 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>KRYPTON</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Orbitron",sans-serif;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>grim.wtf</title>
+    <style>
+        /* --- RESET & BASIC SETUP --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* BACKGROUND */
-body{
-    min-height:100vh;
-    background:radial-gradient(circle at top,#2a2a2a,#050505 70%,#000);
-    color:white;
-    overflow:hidden;
-}
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace; /* Monospace for the hack/cheat aesthetic */
+            overflow: hidden; /* Prevent scrolling */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
 
-/* STAR BACKGROUND */
-.stars,.stars2,.stars3{
-    position:fixed;
-    top:0;left:0;
-    width:100%;
-    height:100%;
-    background-repeat:repeat;
-    background-position:0 0;
-    z-index:-5;
-}
-.stars{
-    background-image:radial-gradient(1px 1px at 20px 30px,#fff,transparent),
-                     radial-gradient(1px 1px at 100px 80px,#fff,transparent),
-                     radial-gradient(2px 2px at 200px 150px,#888,transparent);
-    animation:moveStars 200s linear infinite;
-}
-.stars2{
-    background-image:radial-gradient(1px 1px at 50px 100px,#aaa,transparent),
-                     radial-gradient(2px 2px at 160px 200px,#fff,transparent);
-    animation:moveStars 120s linear infinite;
-}
-.stars3{
-    background-image:radial-gradient(1px 1px at 90px 40px,#777,transparent),
-                     radial-gradient(1px 1px at 230px 90px,#999,transparent);
-    animation:moveStars 80s linear infinite;
-}
-@keyframes moveStars{
-    from{background-position:0 0;}
-    to{background-position:-10000px 5000px;}
-}
+        /* --- ANIMATED BACKGROUND (CANVAS) --- */
+        #star-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
 
-/* COMET */
-.comet{
-    position:fixed;
-    top:-50px;
-    left:-200px;
-    width:200px;
-    height:2px;
-    background:linear-gradient(90deg,white,transparent);
-    filter:blur(1px);
-    animation:cometMove 12s linear infinite;
-}
-@keyframes cometMove{
-    0%{transform:translate(-200px,-50px);}
-    100%{transform:translate(120vw,80vh);}
-}
+        /* --- THE CURVED PLANET HORIZON --- */
+        .horizon {
+            position: absolute;
+            bottom: -60vh; /* Push it down so only the top curve shows */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150vw; /* Wider than screen to create a gentle curve */
+            height: 100vh;
+            background: radial-gradient(circle at 50% 0%, #1a1a1a, #000);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50% 50% 0 0; /* Creates the curve */
+            z-index: 1;
+            box-shadow: 0 -10px 50px rgba(255, 255, 255, 0.02);
+        }
 
-/* TOP BAR */
-header{
-    position:absolute;
-    top:40px;
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 60px;
-    z-index:5;
-}
-.logo{
-    font-size:28px;
-    letter-spacing:4px;
-    font-weight:800;
-    cursor:pointer;
-    animation:floatUp 1.2s ease forwards;
-}
-.status-btn{
-    padding:10px 20px;
-    border-radius:12px;
-    background:#101010;
-    border:1px solid #333;
-    color:white;
-    cursor:pointer;
-    transition:.3s;
-}
-.status-btn:hover{
-    background:#181818;
-    transform:scale(1.05);
-}
+        /* --- HEADER / NAVIGATION --- */
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
 
-@keyframes floatUp{
-    from{opacity:0;transform:translateY(40px);}
-    to{opacity:1;transform:translateY(0);}
-}
+        .logo-small {
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-/* CENTER CONTENT */
-.center{
-    position:absolute;
-    top:45%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    text-align:center;
-    animation:floatUp 1.3s ease forwards;
-}
+        /* The small arrow/icon before the logo */
+        .logo-icon {
+            width: 0; 
+            height: 0; 
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #666;
+            margin-right: 5px;
+        }
 
-.center h1{
-    font-size:56px;
-    letter-spacing:6px;
-    margin-bottom:16px;
-}
-.center p{
-    opacity:.6;
-    margin-bottom:40px;
-}
+        .nav-pills {
+            display: flex;
+            gap: 10px;
+            background: transparent;
+        }
 
-.btns button{
-    padding:14px 40px;
-    margin:10px;
-    border-radius:14px;
-    background:#121212;
-    border:1px solid #333;
-    color:white;
-    cursor:pointer;
-    transition:.3s;
-}
-.btns button:hover{
-    transform:scale(1.08);
-    background:#1c1c1c;
-}
+        .nav-item {
+            text-decoration: none;
+            color: #888;
+            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
 
-/* HILL / PLANET CURVE */
-.planet{
-    position:fixed;
-    bottom:-200px;
-    width:150%;
-    height:500px;
-    background:radial-gradient(circle at center,#111,#000);
-    border-radius:50%;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:-1;
-}
+        .nav-item.active {
+            background-color: #fff;
+            color: #000;
+            font-weight: bold;
+        }
 
-/* LOGIN */
-.login-card{
-    display:none;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(.9);
-    width:350px;
-    background:#0f0f0f;
-    padding:30px;
-    border-radius:20px;
-    border:1px solid #222;
-    text-align:center;
-    animation:loginPop .6s ease forwards;
-}
-@keyframes loginPop{
-    from{opacity:0;transform:translate(-50%,-50%) scale(.8);}
-    to{opacity:1;transform:translate(-50%,-50%) scale(1);}
-}
+        .nav-item:hover:not(.active) {
+            color: #fff;
+        }
 
-.login-card h2{
-    margin-bottom:25px;
-    letter-spacing:3px;
-}
-.login-card input{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border-radius:10px;
-    border:1px solid #333;
-    background:#080808;
-    color:white;
-}
-.login-card button{
-    margin-top:15px;
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:none;
-    background:#141414;
-    color:white;
-    cursor:pointer;
-}
+        /* --- MAIN CONTENT CENTER --- */
+        main {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            margin-top: -50px; /* Slight offset upwards visually */
+        }
 
-/* STATUS MODAL */
-.status-modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.6);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:99;
-}
+        /* BIG LOGO */
+        h1 {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
 
-.status-box{
-    background:#0f0f0f;
-    padding:30px 50px;
-    border-radius:20px;
-    border:1px solid #333;
-    display:flex;
-    align-items:center;
-    gap:20px;
-    animation:floatUp .5s ease forwards;
-}
+        .accent-dot {
+            color: #a855f7; /* The purple dot */
+        }
 
-.status-circle{
-    width:24px;
-    height:24px;
-    border-radius:50%;
-    background:radial-gradient(circle,#00ff88,#023e21);
-    box-shadow:0 0 10px #00ff88,0 0 25px #00ff88;
-    position:relative;
-}
-.status-circle::after{
-    content:"Updated";
-    position:absolute;
-    bottom:120%;
-    left:50%;
-    transform:translateX(-50%);
-    padding:6px 12px;
-    font-size:12px;
-    background:black;
-    border-radius:8px;
-    opacity:0;
-    pointer-events:none;
-    transition:.3s;
-}
-.status-circle:hover::after{
-    opacity:1;
-}
-</style>
+        .subtitle {
+            font-size: 1rem;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-weight: normal;
+        }
+
+        /* --- BUTTONS & ANIMATION --- */
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            
+            /* Animation setup */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: tweenUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .btn:hover {
+            border-color: #666;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Stagger the animation for each button */
+        .btn:nth-child(1) { animation-delay: 0.1s; }
+        .btn:nth-child(2) { animation-delay: 0.2s; }
+        .btn:nth-child(3) { animation-delay: 0.3s; }
+
+        /* Keyframes for the "Tween Up" effect */
+        @keyframes tweenUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
 </head>
-
 <body>
 
-<div class="stars"></div>
-<div class="stars2"></div>
-<div class="stars3"></div>
-<div class="comet"></div>
+    <canvas id="star-canvas"></canvas>
+    
+    <div class="horizon"></div>
 
-<header>
-  <div class="logo" onclick="goHome()">KRYPTON</div>
-  <button class="status-btn" onclick="openStatus()">Status</button>
-</header>
+    <header>
+        <div class="logo-small">
+            <span class="logo-icon"></span> grim.wtf
+        </div>
+        <nav class="nav-pills">
+            <a href="#" class="nav-item active">Home</a>
+            <a href="#" class="nav-item">Annc</a>
+            <a href="#" class="nav-item">Status</a>
+        </nav>
+        <div style="width: 100px;"></div> 
+    </header>
 
-<!-- HOME -->
-<div class="center" id="home">
-  <h1>KRYPTON</h1>
-  <p>Control. Precision. Power.</p>
+    <main>
+        <h1>grim<span class="accent-dot">.</span>wtf</h1>
+        <p class="subtitle">Private roblox closet cheat</p>
+        
+        <div class="button-group">
+            <a href="#" class="btn">Login</a>
+            <a href="#" class="btn">Annc</a>
+            <a href="#" class="btn">Details</a>
+        </div>
+    </main>
 
-  <div class="btns">
-    <button onclick="openLogin()">LOGIN</button>
-    <button>SIGN UP</button>
-  </div>
-</div>
+    <script>
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
 
-<!-- LOGIN -->
-<div class="login-card" id="login">
-  <h2>LOGIN</h2>
-  <input type="text" placeholder="Username">
-  <input type="password" placeholder="Password">
-  <button>Enter</button>
-</div>
+        let width, height;
+        let stars = [];
 
-<!-- STATUS MODAL -->
-<div class="status-modal" id="statusModal" onclick="closeStatus(event)">
-  <div class="status-box">
-    <div class="status-circle"></div>
-    <h3>KRYPTON UPDATE</h3>
-  </div>
-</div>
+        // Star configuration
+        const numStars = 200;
+        const speed = 0.2; // Speed of drift
 
-<div class="planet"></div>
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            createStars();
+        }
 
-<script>
-const home = document.getElementById("home");
-const login = document.getElementById("login");
-const modal = document.getElementById("statusModal");
+        function createStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 2,
+                    opacity: Math.random(),
+                    speedFactor: Math.random() * 0.5 + 0.5 // varied speeds for depth
+                });
+            }
+        }
 
-function openLogin(){
-    home.style.display="none";
-    login.style.display="block";
-}
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            ctx.fillStyle = "white";
 
-function goHome(){
-    login.style.display="none";
-    home.style.display="block";
-}
+            stars.forEach(star => {
+                // Draw star
+                ctx.globalAlpha = star.opacity;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
 
-function openStatus(){
-    modal.style.display="flex";
-}
+                // Move star (animate upwards slowly to mimic camera moving down, or just drift)
+                // Let's do a slow drift to the left to look 'spacey'
+                star.x -= speed * star.speedFactor;
 
-function closeStatus(e){
-    if(e.target === modal){
-        modal.style.display="none";
-    }
-}
-</script>
+                // Reset position if off screen
+                if (star.x < 0) {
+                    star.x = width;
+                    star.y = Math.random() * height;
+                }
+            });
 
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        
+        // Initialize
+        resize();
+        animate();
+    </script>
 </body>
 </html>
