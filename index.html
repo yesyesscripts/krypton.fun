@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(270deg, #0f0f0f, #2a2a2a, #5c5c5c, #2a2a2a);
+      background-size: 600% 600%;
+      animation: flow 12s ease infinite;
+      color: white;
+    }
+
+    @keyframes flow {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 40px 50px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 32px;
+      letter-spacing: 1px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 14px 26px;
+      border-radius: 30px;
+      border: 2px solid #888;
+      background: transparent;
+      color: #eee;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      min-width: 120px;
+    }
+
+    button:hover {
+      background: #888;
+      color: #111;
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Welcome</h1>
+    <div class="buttons">
+      <button onclick="goToLogin()">Log In</button>
+      <button onclick="goToSignUp()">Sign Up</button>
+    </div>
+  </div>
+
+  <footer>
+    Put on GitHub Pages
+  </footer>
+
+  <script>
+    function goToLogin() {
+      alert("Login button clicked – connect this to your login page");
+      // window.location.href = 'login.html';
+    }
+
+    function goToSignUp() {
+      alert("Sign Up button clicked – connect this to your signup page");
+      // window.location.href = 'signup.html';
+    }
+  </script>
+
+</body>
+</html>
