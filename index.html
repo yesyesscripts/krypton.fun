@@ -1,133 +1,248 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>krypton.fun</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KRYPTON</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-* {
+*{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: 'Inter', sans-serif;
+    font-family:"Orbitron",sans-serif;
 }
 
-body {
-    background:black;
+/* BACKGROUND */
+body{
+    min-height:100vh;
+    background:radial-gradient(circle at top,#2a2a2a,#050505 70%,#000);
     color:white;
-    height:100vh;
     overflow:hidden;
 }
 
-/* ====== STARS ====== */
-.stars, .stars2 {
-    position: fixed;
-    width:200%;
-    height:200%;
-    background-image: radial-gradient(#fff 1px, transparent 1px);
-    background-size: 200px 200px;
-    opacity:.35;
-    animation: move 120s linear infinite;
+/* STAR BACKGROUND */
+.stars,.stars2,.stars3{
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    background-repeat:repeat;
+    background-position:0 0;
+    z-index:-5;
+}
+.stars{
+    background-image:radial-gradient(1px 1px at 20px 30px,#fff,transparent),
+                     radial-gradient(1px 1px at 100px 80px,#fff,transparent),
+                     radial-gradient(2px 2px at 200px 150px,#888,transparent);
+    animation:moveStars 200s linear infinite;
+}
+.stars2{
+    background-image:radial-gradient(1px 1px at 50px 100px,#aaa,transparent),
+                     radial-gradient(2px 2px at 160px 200px,#fff,transparent);
+    animation:moveStars 120s linear infinite;
+}
+.stars3{
+    background-image:radial-gradient(1px 1px at 90px 40px,#777,transparent),
+                     radial-gradient(1px 1px at 230px 90px,#999,transparent);
+    animation:moveStars 80s linear infinite;
+}
+@keyframes moveStars{
+    from{background-position:0 0;}
+    to{background-position:-10000px 5000px;}
 }
 
-.stars2 {
-    background-size: 300px 300px;
-    opacity:.15;
-    animation: move 200s linear infinite;
+/* COMET */
+.comet{
+    position:fixed;
+    top:-50px;
+    left:-200px;
+    width:200px;
+    height:2px;
+    background:linear-gradient(90deg,white,transparent);
+    filter:blur(1px);
+    animation:cometMove 12s linear infinite;
+}
+@keyframes cometMove{
+    0%{transform:translate(-200px,-50px);}
+    100%{transform:translate(120vw,80vh);}
 }
 
-@keyframes move{
-    from { transform: translateY(0); }
-    to { transform: translateY(-1500px); }
-}
-
-/* ==== COMETS ==== */
-.comet {
-    position: absolute;
-    width: 180px;
-    height: 2px;
-    background: linear-gradient(90deg,#aaa,transparent);
-    filter: blur(0.3px);
-    animation: comet 6s linear infinite;
-    top: -100px;
-    left: -200px;
-}
-
-.comet.delay { animation-delay: 3s; }
-
-@keyframes comet {
-    from { transform:translate(-200px, -200px); opacity:0;}
-    20% { opacity:1;}
-    to { transform:translate(2000px, 1000px); opacity:0;}
-}
-
-/* ===== NAV ===== */
-.nav {
+/* TOP BAR */
+header{
     position:absolute;
-    top:20px;
-    right:40px;
+    top:40px;
+    width:100%;
     display:flex;
-    gap:25px;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 60px;
+    z-index:5;
 }
-
-.nav a {
-    text-decoration:none;
-    color:#aaa;
-    padding:8px 16px;
-    border-radius:20px;
-    transition:.2s;
+.logo{
+    font-size:28px;
+    letter-spacing:4px;
+    font-weight:800;
+    cursor:pointer;
+    animation:floatUp 1.2s ease forwards;
 }
-
-.nav a:hover {
-    background:white;
-    color:black;
-}
-
-/* ===== MAIN ===== */
-.container {
-    text-align:center;
-    margin-top:180px;
-}
-
-h1 {
-    font-size:72px;
-    letter-spacing:5px;
-}
-
-p {
-    margin:10px 0 30px;
-    opacity:.6;
-}
-
-.btns {
-    display:flex;
-    justify-content:center;
-    gap:15px;
-}
-
-.btn {
-    padding:12px 30px;
+.status-btn{
+    padding:10px 20px;
     border-radius:12px;
-    background:transparent;
+    background:#101010;
     border:1px solid #333;
     color:white;
-    text-decoration:none;
-    transition:.2s;
+    cursor:pointer;
+    transition:.3s;
+}
+.status-btn:hover{
+    background:#181818;
+    transform:scale(1.05);
 }
 
-.btn:hover {
-    background:white;
-    color:black;
+@keyframes floatUp{
+    from{opacity:0;transform:translateY(40px);}
+    to{opacity:1;transform:translateY(0);}
 }
 
-/* ===== HILL ===== */
-.hill {
+/* CENTER CONTENT */
+.center{
     position:absolute;
-    bottom:0;
+    top:45%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    animation:floatUp 1.3s ease forwards;
+}
+
+.center h1{
+    font-size:56px;
+    letter-spacing:6px;
+    margin-bottom:16px;
+}
+.center p{
+    opacity:.6;
+    margin-bottom:40px;
+}
+
+.btns button{
+    padding:14px 40px;
+    margin:10px;
+    border-radius:14px;
+    background:#121212;
+    border:1px solid #333;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+.btns button:hover{
+    transform:scale(1.08);
+    background:#1c1c1c;
+}
+
+/* HILL / PLANET CURVE */
+.planet{
+    position:fixed;
+    bottom:-200px;
+    width:150%;
+    height:500px;
+    background:radial-gradient(circle at center,#111,#000);
+    border-radius:50%;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:-1;
+}
+
+/* LOGIN */
+.login-card{
+    display:none;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(.9);
+    width:350px;
+    background:#0f0f0f;
+    padding:30px;
+    border-radius:20px;
+    border:1px solid #222;
+    text-align:center;
+    animation:loginPop .6s ease forwards;
+}
+@keyframes loginPop{
+    from{opacity:0;transform:translate(-50%,-50%) scale(.8);}
+    to{opacity:1;transform:translate(-50%,-50%) scale(1);}
+}
+
+.login-card h2{
+    margin-bottom:25px;
+    letter-spacing:3px;
+}
+.login-card input{
     width:100%;
-    height:300px;
-    background: radial-gradient(120% 100% at 50% 100%, #111 20%, transparent 60%);
+    padding:12px;
+    margin:8px 0;
+    border-radius:10px;
+    border:1px solid #333;
+    background:#080808;
+    color:white;
+}
+.login-card button{
+    margin-top:15px;
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    background:#141414;
+    color:white;
+    cursor:pointer;
+}
+
+/* STATUS MODAL */
+.status-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99;
+}
+
+.status-box{
+    background:#0f0f0f;
+    padding:30px 50px;
+    border-radius:20px;
+    border:1px solid #333;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    animation:floatUp .5s ease forwards;
+}
+
+.status-circle{
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:radial-gradient(circle,#00ff88,#023e21);
+    box-shadow:0 0 10px #00ff88,0 0 25px #00ff88;
+    position:relative;
+}
+.status-circle::after{
+    content:"Updated";
+    position:absolute;
+    bottom:120%;
+    left:50%;
+    transform:translateX(-50%);
+    padding:6px 12px;
+    font-size:12px;
+    background:black;
+    border-radius:8px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+.status-circle:hover::after{
+    opacity:1;
 }
 </style>
 </head>
@@ -136,26 +251,68 @@ p {
 
 <div class="stars"></div>
 <div class="stars2"></div>
+<div class="stars3"></div>
 <div class="comet"></div>
-<div class="comet delay"></div>
 
-<div class="nav">
-    <a href="#">Home</a>
-    <a href="login.html">Login</a>
-    <a id="statusBtn">Status</a>
+<header>
+  <div class="logo" onclick="goHome()">KRYPTON</div>
+  <button class="status-btn" onclick="openStatus()">Status</button>
+</header>
+
+<!-- HOME -->
+<div class="center" id="home">
+  <h1>KRYPTON</h1>
+  <p>Control. Precision. Power.</p>
+
+  <div class="btns">
+    <button onclick="openLogin()">LOGIN</button>
+    <button>SIGN UP</button>
+  </div>
 </div>
 
-<div class="container">
-    <h1>krypton<span style="color:#9c6cff">.</span>fun</h1>
-    <p>Private Roblox Script</p>
-
-    <div class="btns">
-        <a class="btn" href="login.html">Login</a>
-        <a class="btn" href="#">Details</a>
-    </div>
+<!-- LOGIN -->
+<div class="login-card" id="login">
+  <h2>LOGIN</h2>
+  <input type="text" placeholder="Username">
+  <input type="password" placeholder="Password">
+  <button>Enter</button>
 </div>
 
-<div class="hill"></div>
+<!-- STATUS MODAL -->
+<div class="status-modal" id="statusModal" onclick="closeStatus(event)">
+  <div class="status-box">
+    <div class="status-circle"></div>
+    <h3>KRYPTON UPDATE</h3>
+  </div>
+</div>
+
+<div class="planet"></div>
+
+<script>
+const home = document.getElementById("home");
+const login = document.getElementById("login");
+const modal = document.getElementById("statusModal");
+
+function openLogin(){
+    home.style.display="none";
+    login.style.display="block";
+}
+
+function goHome(){
+    login.style.display="none";
+    home.style.display="block";
+}
+
+function openStatus(){
+    modal.style.display="flex";
+}
+
+function closeStatus(e){
+    if(e.target === modal){
+        modal.style.display="none";
+    }
+}
+</script>
 
 </body>
 </html>
